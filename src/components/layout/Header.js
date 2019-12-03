@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'gatsby';
 import LogoSVG from '../../images/svg/SignatureLogoSVG'; // inline svg component
 import { HeaderWrapper } from '../../styles/layout/HeaderStyles';
 import '../../styles/layout/hamburgers.css';
-import { Link } from 'gatsby';
 
 const Header = () => {
   // set boolean state and listen for scroll events
   // isScrolled value sent to <HeaderWrapper> styled component
   let [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
-    window.addEventListener('scroll', e => {
+    window.addEventListener('scroll', () => {
       if (
         document.body.scrollTop > 30 ||
         document.documentElement.scrollTop > 30
@@ -46,6 +47,11 @@ const Header = () => {
             <li>
               <Link activeClassName="activePage" to="/about">
                 About Me
+              </Link>
+            </li>
+            <li>
+              <Link activeClassName="activePage" to="/contact">
+                Contact
               </Link>
             </li>
           </ul>

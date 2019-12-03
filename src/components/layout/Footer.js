@@ -2,7 +2,7 @@ import React from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import FooterWrapper from '../../styles/layout/FooterStyles';
-import EmailSubForm from './EmailSubForm';
+// import EmailSubForm from './EmailSubForm';
 
 import gatsbyImg from '../../images/tech-icons/Gatsby_Monogram.svg';
 import javascriptImg from '../../images/tech-icons/javascript.svg';
@@ -10,7 +10,7 @@ import mdImg from '../../images/tech-icons/markdown.svg';
 import netlifyImg from '../../images/tech-icons/netlify.svg';
 import reactImg from '../../images/tech-icons/react.svg';
 
-const Footer = ({ path }) => {
+const Footer = () => {
   const data = useStaticQuery(graphql`
     query {
       me: file(relativePath: { eq: "me.md" }) {
@@ -79,27 +79,24 @@ const Footer = ({ path }) => {
     <FooterWrapper>
       <span>
         See a typo or want to contribute?{' '}
-        <a
-          class="twitter-share-button"
-          href="https://twitter.com/intent/tweet?text=Hey,%20@jacobdcastro"
-          target="_blank"
-          rel="noopener"
-        >
-          Tweet Me
-        </a>{' '}
-        or submit a PR or issue on{' '}
+        <a href="mailto:jdcastro.business@gmail.com">Email me</a> or submit a PR
+        or issue on{' '}
         <a href="https://github.com/jacobdcastro/personal-site/" rel="noopener">
-          the Gtihub repo
+          the Github repo
         </a>
         !
       </span>
 
       {/* <EmailSubForm /> */}
 
-      <span>{`Follow me everywhere: ${handle}`}</span>
       <span>
-        Let's connect! Email me:{' '}
-        <a href="mailto:jdcastro.business@gmail.com">{email}</a>
+        Let's connect! <br />
+        Email me: <a href="mailto:jdcastro.business@gmail.com">{email}</a>
+        <br />
+        or{' '}
+        <span>
+          Follow me everywhere: <strong>{handle}</strong>
+        </span>
       </span>
       <div className="stackIcons">
         <h4>This website built with:</h4>
@@ -129,7 +126,7 @@ const Footer = ({ path }) => {
         href="https://github.com/jacobdcastro/personal-site/releases"
         rel="noopener"
       >
-        v2.0.2
+        v2.3.1
       </a>
       <a href={`${url}/sitemap.xml`}>Sitemap</a>
       <span>&copy;2019 - JDCastro Digital</span>

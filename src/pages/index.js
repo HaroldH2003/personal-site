@@ -1,46 +1,44 @@
 import React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
+import PropTypes from 'prop-types';
 import Layout from '../templates/layout';
 import { IndexPageWrapper } from '../styles/index/IndexStyles';
 import BlogListing from '../components/index/BlogListing';
 
 import Twitter from '../images/svg/TwitterSVG';
 import Instagram from '../images/svg/InstagramSVG';
-import Facebook from '../images/svg/FacebookSVG';
 import Linkedin from '../images/svg/LinkedinSVG';
-import Snapchat from '../images/svg/SnapchatSVG';
 import Github from '../images/svg/GithubSVG';
 import Arrow from '../images/svg/DownArrowSVG';
+import Resume from '../images/svg/ResumeSVG';
 
-const Index = props => {
+const Index = ({ path, data }) => {
   const {
     miniBio,
     twitterURL,
     instagramURL,
     githubURL,
-    facebookURL, // soon to be launched
-    snapchat, // I may use snap?
     linkedinURL,
-  } = props.data.me.childMarkdownRemark.frontmatter;
+  } = data.me.childMarkdownRemark.frontmatter;
 
   const seo = {
-    page: `index`,
+    page: 'index',
     title: '',
     description: `${miniBio}`,
-    url: `https://jacobdcastro.com`,
-    imgUrl: `${props.data.pageImg.publicURL}`,
+    url: 'https://jacobdcastro.com',
+    imgUrl: `${data.pageImg.publicURL}`,
     imgAlt:
       'jdcastro logo, twitter, instagram, facebook, github icons with @jacobdcastro username',
     breadcrumbs: [],
   };
 
   return (
-    <Layout seo={seo} path={props.path}>
+    <Layout seo={seo} path={path}>
       <IndexPageWrapper>
         <div className="indexIntro">
-          <h1>
+          <h1 className="headline">
             I'm Jacob Daniel Castro,
-            <br />a fullstack Javascript
+            <br />a fullstack JavaScript
             <br /> developer.
           </h1>
           <ul className="introSocialLinks">
@@ -49,7 +47,7 @@ const Index = props => {
                 target="_blank"
                 href={twitterURL}
                 rel="noopener"
-                aria-label="Jacob's twitter profile"
+                aria-label="My twitter profile"
               >
                 <Twitter />
               </a>
@@ -59,49 +57,39 @@ const Index = props => {
                 target="_blank"
                 href={instagramURL}
                 rel="noopener"
-                aria-label="Jacob's Instagram page"
+                aria-label="My Instagram page"
               >
                 <Instagram />
               </a>
             </li>
-            {/* <li>
-              <a
-                target="_blank"
-                href={facebookURL}
-                rel="noopener"
-                aria-label="Jacob's Facebook page"
-              >
-                <Facebook />
-              </a>
-            </li> */}
             <li>
               <a
                 target="_blank"
                 href={linkedinURL}
                 rel="noopener"
-                aria-label="Jacob's linkedin profile"
+                aria-label="My linkedin profile"
               >
                 <Linkedin />
               </a>
             </li>
-            {/* <li>
-              <a
-                target="_blank"
-                href={snapchat}
-                rel="noopener"
-                aria-label="jacob's snapchat account"
-              >
-                <Snapchat />
-              </a>
-            </li> */}
             <li>
               <a
                 target="_blank"
                 href={githubURL}
                 rel="noopener"
-                aria-label="Jacob's Github page"
+                aria-label="My Github page"
               >
                 <Github />
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                href={data.resume.publicURL}
+                rel="noopener"
+                aria-label="My Resume"
+              >
+                <Resume />
               </a>
             </li>
           </ul>
@@ -121,7 +109,7 @@ const Index = props => {
         <div id="recentPublications">
           <h1>All Recent Publications</h1>
 
-          {props.data.allMarkdownRemark.edges.map(({ node }) => (
+          {data.allMarkdownRemark.edges.map(({ node }) => (
             <BlogListing key={node.id} data={node} />
           ))}
         </div>
@@ -130,10 +118,15 @@ const Index = props => {
   );
 };
 
+Index.propTypes = {
+  path: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
 export default Index;
 
-export const INDEX_POSTS_QUERY = graphql`
-  query INDEX_POSTS_QUERY {
+export const INDEX_PAGE_QUERY = graphql`
+  query INDEX_PAGE_QUERY {
     # all blog posts, sorted by most recent
     allMarkdownRemark(
       sort: { fields: frontmatter___date, order: DESC }
@@ -178,6 +171,10 @@ export const INDEX_POSTS_QUERY = graphql`
 
     pageImg: file(relativePath: { eq: "page-meta-img.jpg" }) {
       publicURL # used for SEO
+    }
+
+    resume: file(relativePath: { eq: "content/JDCastro_Resume_Nov2019.pdf" }) {
+      publicURL
     }
   }
 `;

@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
 
 // Mailchimp script for website connection
-const mcEmbed = `!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/acfe9e33f6e477b7d4271061c/33f0b474bec5c1094df95b9ee.js");`;
+const mcEmbed =
+  '!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/acfe9e33f6e477b7d4271061c/33f0b474bec5c1094df95b9ee.js");';
 
 const Head = ({ seo }) => {
   const data = useStaticQuery(graphql`
@@ -31,14 +33,14 @@ const Head = ({ seo }) => {
   const {
     miniBio,
     email,
-    phone,
+    // phone,
     url,
     handle,
-    username,
+    // username,
     twitterURL,
     instagramURL,
     facebookURL,
-    snapchat,
+    // snapchat,
     linkedinURL,
   } = data.file.childMarkdownRemark.frontmatter;
 
@@ -54,7 +56,7 @@ const Head = ({ seo }) => {
   return (
     <Helmet>
       <title>
-        {seo.title && `${seo.title} | `}Jacob D. Castro - Fullstack Javascript
+        {seo.title && `${seo.title} | `}Jacob D. Castro - Fullstack JavaScript
         Developer
       </title>
       <meta name="Description" content={seo.description} />
@@ -68,7 +70,7 @@ const Head = ({ seo }) => {
       <meta
         property="og:title"
         content={`${seo.title &&
-          seo.title + ' | '}Jacob D. Castro - Fullstack Javascript Developer`}
+          seo.title + ' | '}Jacob D. Castro - Fullstack JavaScript Developer`}
       />
       <meta property="og:description" content={seo.description} />
       <meta property="og:url" content={seo.url} />
@@ -89,7 +91,7 @@ const Head = ({ seo }) => {
       <meta
         property="twitter:title"
         content={`${seo.title &&
-          seo.title + ' | '}Jacob D. Castro - Fullstack Javascript Developer`}
+          seo.title + ' | '}Jacob D. Castro - Fullstack JavaScript Developer`}
       />
       <meta property="twitter:description" content={seo.description} />
       <meta property="twitter:image" content={`${url}${seo.imgUrl}`} />
@@ -134,9 +136,14 @@ const Head = ({ seo }) => {
         </script>
       )}
 
+      {/* Mailchimp code embed */}
       <script id="mcjs">{mcEmbed}</script>
     </Helmet>
   );
+};
+
+Head.propTypes = {
+  seo: PropTypes.object.isRequired,
 };
 
 export default Head;
