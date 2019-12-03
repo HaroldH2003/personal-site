@@ -35,22 +35,38 @@ const Header = () => {
         <nav>
           <ul>
             <li>
-              <Link activeClassName="activePage" to="/blog">
+              <Link
+                data-testid="header-link"
+                activeClassName="activePage"
+                to="/blog"
+              >
                 Blog
               </Link>
             </li>
             <li>
-              <Link activeClassName="activePage" to="/tutorials">
+              <Link
+                data-testid="header-link"
+                activeClassName="activePage"
+                to="/tutorials"
+              >
                 Tutorials
               </Link>
             </li>
             <li>
-              <Link activeClassName="activePage" to="/about">
+              <Link
+                data-testid="header-link"
+                activeClassName="activePage"
+                to="/about"
+              >
                 About Me
               </Link>
             </li>
             <li>
-              <Link activeClassName="activePage" to="/contact">
+              <Link
+                data-testid="header-link"
+                activeClassName="activePage"
+                to="/contact"
+              >
                 Contact
               </Link>
             </li>
