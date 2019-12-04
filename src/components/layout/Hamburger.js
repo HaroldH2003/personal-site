@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const HamburgerButton = styled.button`
   outline: none;
@@ -136,12 +137,13 @@ const HamburgerButton = styled.button`
   }
 `;
 
-const Hamburger = ({ mobileNavIsOpen, action }) => {
+const Hamburger = ({ isOpening, isOpen, openMenu, closeMenu }) => {
+  const isActive = isOpening || isOpen ? 'is-active' : null;
   return (
     <HamburgerButton
-      className={`hamburger hamburger--spin-r ${mobileNavIsOpen &&
-        'is-active'}`}
-      onClick={action}
+      data-testid="hamburger"
+      className={`hamburger hamburger--spin-r ${isActive}`}
+      onClick={() => (isOpening || isOpen ? closeMenu() : openMenu())}
       type="button"
       aria-label="open mobile navigation menu"
     >
@@ -150,6 +152,13 @@ const Hamburger = ({ mobileNavIsOpen, action }) => {
       </span>
     </HamburgerButton>
   );
+};
+
+Hamburger.propTypes = {
+  isOpening: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  openMenu: PropTypes.func.isRequired,
+  closeMenu: PropTypes.func.isRequired,
 };
 
 export default Hamburger;

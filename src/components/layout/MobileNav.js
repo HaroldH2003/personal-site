@@ -1,50 +1,57 @@
-import React from 'react';
-import { Link } from 'gatsby';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import MobileNavWrapper from '../../styles/layout/MobileNavStyles';
+import MobileNavMenu from './MobileNavMenu';
 import Hamburger from './Hamburger';
 
-const MobileNav = ({ mobileNavIsOpen, action }) => {
-  return (
-    <MobileNavWrapper isOpen={mobileNavIsOpen}>
-      <Hamburger mobileNavIsOpen={mobileNavIsOpen} action={action} />
+const animTime = 370;
 
-      <div className="mobileNav">
-        <div className="darkLayer" onClick={action} />
-        <div id="mobileMenu">
-          <nav>
-            <ul>
-              <li>
-                <Link activeClassName="activePage" to="/blog">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link activeClassName="activePage" to="/tutorials">
-                  Tutorials
-                </Link>
-              </li>
-              <li>
-                <Link activeClassName="activePage" to="/about">
-                  About Me
-                </Link>
-              </li>
-              <li>
-                <Link activeClassName="activePage" to="/contact">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+const MobileNav = () => {
+  let [isRendered, setIsRendered] = useState(false);
+  let [isOpening, setIsOpening] = useState(false);
+  let [isOpen, setIsOpen] = useState(false);
+  let [isClosing, setIsClosing] = useState(false);
+
+  const openMenu = () => {
+    setIsRendered(true);
+    // MobileNavMenu 'useEffect()' takes care of rest
+  };
+
+  const closeMenu = () => {
+    setIsClosing(true);
+    setIsOpen(false);
+    console.log('Now closing...');
+    setTimeout(() => {
+      setIsClosing(false);
+      setIsRendered(false);
+      console.log('finally closed and unrendered!!!');
+    }, animTime);
+  };
+
+  return (
+    <MobileNavWrapper
+      isRendered={isRendered}
+      isOpening={isOpening}
+      isOpen={isOpen}
+      isClosing={isClosing}
+      animTime={animTime}
+    >
+      <Hamburger
+        isOpening={isOpening}
+        isOpen={isOpen}
+        openMenu={openMenu}
+        closeMenu={closeMenu}
+      />
+
+      {isRendered && (
+        <MobileNavMenu
+          setIsOpening={setIsOpening}
+          setIsOpen={setIsOpen}
+          closeMenu={closeMenu}
+          animTime={animTime}
+        />
+      )}
     </MobileNavWrapper>
   );
-};
-
-MobileNav.propTypes = {
-  mobileNavIsOpen: PropTypes.bool.isRequired,
-  action: PropTypes.func.isRequired,
 };
 
 export default MobileNav;
