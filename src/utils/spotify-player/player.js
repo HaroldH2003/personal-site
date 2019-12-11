@@ -1,12 +1,19 @@
 const token = '[My Spotify Web API access token]';
 
-export const player = new Spotify.Player({
-  name: 'Jacob D. Castro Website Player',
-  getOAuthToken: cb => {
-    cb(token);
-  },
-});
+// Initializes new spotify player
+export const initPlayer = vol => {
+  const player = new Spotify.Player({
+    name: 'Jacob D. Castro Website Player',
+    getOAuthToken: cb => {
+      cb(token);
+    },
+    volume: vol, // default volume
+  });
 
+  return player;
+};
+
+// play specific song via spotify URI
 export const play = ({
   spotify_uri,
   playerInstance: {
