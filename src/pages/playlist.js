@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { graphql } from 'gatsby';
 import PropTypes from 'prop-types';
 import Layout from '../templates/layout';
 import PlaylistWrapper from '../styles/playlist/PlaylistPageStyles';
-import { play, player } from '../utils/spotify-player/spotifyPlayer';
+import { initPlayer, play } from '../utils/spotify-player/player';
+import {
+  addListeners,
+  removeListeners,
+} from '../utils/spotify-player/listeners';
+import PlayerActions from '../components/playlist/PlayerActions';
 
 const Playlist = ({ path, data }) => {
+  const [playerConnected, setPlayerConnected] = useState(false);
+  const [player, setPlayer] = useState(); // player set in useEffect
+
   const seo = {
     page: 'playlist',
     title: 'Bologna - Playlist',
@@ -26,62 +34,44 @@ const Playlist = ({ path, data }) => {
 
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
-      const token = '[My Spotify Web API access token]';
-
-      play({
-        playerInstance: new Spotify.Player({ name: '...' }),
-        spotify_uri: 'spotify:track:7xGfFoTpQ2E7fRF5lN10tr',
-      });
-
-      // Error handling
-      player.addListener('initialization_error', ({ message }) => {
-        console.error(message);
-      });
-      player.addListener('authentication_error', ({ message }) => {
-        console.error(message);
-      });
-      player.addListener('account_error', ({ message }) => {
-        console.error(message);
-      });
-      player.addListener('playback_error', ({ message }) => {
-        console.error(message);
-      });
-
-      // Playback status updates
-      player.addListener('player_state_changed', state => {
-        console.log(state);
-      });
-
-      // Ready
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-      });
-
-      // Not Ready
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
+      // initialize spotify player
+      const player = initPlayer(0.5); // param = volume
+      setPlayer(player);
+      addListeners(player);
 
       // Connect to the player!
-      player.connect();
+      const connected = player.connect();
+      if (connected) {
+        setPlayerConnected(true);
+        console.log('Spotify player connected!');
+      } else {
+        console.log('Spotify player connection failed.');
+      }
+    };
+
+    // cleanup
+    return () => {
+      removeListeners(player);
+      player.diconnect();
     };
   }, []);
+
+  const playSongByUri = uri => {
+    play({
+      playerInstance: player,
+      spotify_uri: `spotify:track:${uri}`,
+    });
+  };
 
   return (
     <Layout seo={seo} path={path}>
       <PlaylistWrapper>
         <h1>Bologna</h1>
 
-        <iframe
-          src="https://open.spotify.com/embed/playlist/1z5CXwxFYO9NMnODMqw4B7"
-          width="300"
-          height="380"
-          frameborder="0"
-          allowtransparency="true"
-          allow="encrypted-media"
-        ></iframe>
+        <PlayerActions player={player} />
       </PlaylistWrapper>
 
+      {/* script to initialize spotify-player */}
       <script src="https://sdk.scdn.co/spotify-player.js"></script>
     </Layout>
   );
