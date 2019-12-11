@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from '../utils/ThemeContext';
 import { ThemeProvider } from 'styled-components';
 import Head from '../utils/Helmet';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 
 import { LayoutWrapper } from '../styles/layout/LayoutStyles';
 import Header from '../components/layout/Header';
@@ -53,7 +53,10 @@ const Layout = ({ children, path, seo }) => {
 
 Layout.propTypes = {
   path: PropTypes.string.isRequired,
-  children: PropTypes.object.isRequired,
+  children: oneOfType([
+    PropTypes.object.isRequired,
+    PropTypes.arrayOf(PropTypes.object.isRequired),
+  ]),
   seo: PropTypes.object.isRequired,
 };
 
