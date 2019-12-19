@@ -19,8 +19,8 @@ const Playlist = ({ path, data }) => {
     title: 'Bologna - Playlist',
     description:
       // eslint-disable-next-line quotes
-      "Let's chat! I'm open to lots of new opportunities, freelance or a fulltime position.",
-    url: 'https://jacobdcastro.com/music',
+      "This is my favorite music playlist! It's curated by myself on a weekly basis. I'm always removing old songs, adding new ones, and keeping a good variety of artists on this. Log in with Spotify to listen right on my site!",
+    url: 'https://jacobdcastro.com/playlist',
     imgUrl: `${data.pageImg.publicURL}`,
     imgAlt:
       'jdcastro logo, twitter, instagram, facebook, github icons with @jacobdcastro username',
