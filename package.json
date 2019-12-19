@@ -46,6 +46,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "start": "netlify dev",
     "build": "gatsby build",
     "dev": "gatsby develop",
     "develop": "gatsby develop",
